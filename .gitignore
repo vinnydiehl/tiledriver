@@ -1,0 +1,17 @@
+# repl.rb allows you to test complex code in your game console, from your text
+# editor. Place something like this in repl.rb:
+#
+# repl do
+#   puts "Hello world!"
+# end
+#
+# Save the file and it will run whatever code is in that block in the running
+# game's console. Replace `repl` with `xrepl` to disable that block of code.
+#
+# This file will not be checked in as it is meant for debugging random things
+# during development and will be constantly changing with irrelevant code.
+repl.rb
+
+.tiled-session
+
+lib/tiled/

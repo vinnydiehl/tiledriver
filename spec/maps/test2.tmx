@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-up" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="21">
+ <tileset firstgid="1" source="../../sprites/platformer/tiles/tiles.tsx"/>
+ <objectgroup id="2" name="objects">
+  <object id="9" gid="1" x="0" y="1600" width="64" height="64"/>
+  <object id="10" x="64" y="1440" width="64" height="96"/>
+  <object id="11" x="64" y="1440">
+   <point/>
+  </object>
+  <object id="12" x="128" y="1440">
+   <polygon points="0,0 64,-32 96,32"/>
+  </object>
+  <object id="13" x="224" y="1472" width="160" height="128">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

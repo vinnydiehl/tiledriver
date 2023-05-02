@@ -1,0 +1,12 @@
+devid=vinnydiehl
+devtitle=Vinny Diehl
+gameid=drtiledrenderersample
+gametitle=DRTiled Renderer Sample App
+version=0.1
+icon=metadata/icon.png
+
+# Render scale quality
+#   0: nearest neighbor
+#   1: linear
+#   2: antialiased
+scale_quality=0

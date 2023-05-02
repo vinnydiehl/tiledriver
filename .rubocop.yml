@@ -1,0 +1,76 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - app/**/*.rb
+    - lib/tiled/**/*.rb
+    - spec/mocks.rb
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/HashAlignment:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+
+Lint/AmbiguousOperator:
+  Enabled: false
+
+# Got confused by `instance_eval`
+Lint/UnusedMethodArgument:
+  Exclude:
+    - lib/tiled_renderer/camera.rb
+
+Metrics:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Style/FormatString:
+  EnforcedStyle: percent
+
+# Not DragonRuby supported
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/MultilineTernaryOperator:
+  Enabled: false
+
+Style/NegatedIfElseCondition:
+  Enabled: false
+
+Style/NestedParenthesizedCalls:
+  Enabled: false
+
+Style/Next:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+# DragonRuby requires file extension
+Style/RedundantFileExtensionInRequire:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
