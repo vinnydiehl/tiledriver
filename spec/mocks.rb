@@ -18,15 +18,17 @@ class ArgsGridMock
   end
 end
 
-class OutputsMock
-  def method_missing(_)
-    @stream ||= OutputsArrayMock.new
-  end
-end
-
 class OutputsArrayMock
   def <<(_)
     nil
+  end
+end
+
+$outputs_array_mock = OutputsArrayMock.new
+
+class OutputsMock
+  def method_missing(*_)
+    $outputs_array_mock
   end
 end
 
@@ -52,7 +54,7 @@ module GTK
             child[:name] = key
             element[:children] << child
           end
-        elsif %w[ellipse point].include?(key)
+        elsif %w[ellipse point data].include?(key)
           child = element.deep_dup
           child[:name] = key
           child[:children] = []

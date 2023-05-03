@@ -8,12 +8,13 @@ def attr_sprite
 end
 
 # Need to load the modules first
-modules = %w[attribute_assignment serializable utils with_attributes]
-modules.each { |m| require_relative "../lib/tiled/#{m}" }
+preload = %w[attribute_assignment serializable utils with_attributes
+             sprite animated_sprite]
+preload.each { |m| require_relative "../lib/tiled/#{m}" }
 
 Dir["lib/**/*.rb"].each do |file|
   # Load everything except the base files and modules
-  unless (["tiled.rb", "tiled_renderer.rb"] + modules).any? { |m| file.include? m }
+  unless (["tiled.rb", "tiled_renderer.rb"] + preload).any? { |m| file.include? m }
     file = file[0...-3]
     require_relative "../#{file}"
   end

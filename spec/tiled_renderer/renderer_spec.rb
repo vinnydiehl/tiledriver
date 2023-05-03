@@ -6,11 +6,10 @@ end
 
 describe Tiled::Renderer do
   let(:args) { ArgsMock.new }
-  let(:renderer) { Tiled::Renderer.new args, Tiled::Map.new("spec/maps/test1.tmx").tap(&:load) }
+  let(:map) { Tiled::Map.new("spec/maps/test1.tmx").tap(&:load) }
+  let(:renderer) { Tiled::Renderer.new args, map }
 
-  before do
-    allow(args).to receive(:render_target).and_return OutputsMock.new
-  end
+  before { allow(args).to receive(:render_target).and_return OutputsMock.new }
 
   context "with test1.tmx loaded" do
     describe "#map=" do
@@ -56,41 +55,46 @@ describe Tiled::Renderer do
   end
 
   describe "an object layer" do
-    before do
-      renderer.map = Tiled::Map.new("spec/maps/test2.tmx").tap(&:load)
-    end
-
+    let(:map) { Tiled::Map.new("spec/maps/test2.tmx").tap(&:load) }
     let(:layer) { renderer.map.layers["objects"] }
+
+    before { allow_any_instance_of(OutputsArrayMock).to receive :<< }
 
     it "loads the points of the polygon" do
       expect(layer.objects.find { |o| o.object_type == :polygon }.attributes.points).
         to eq([[0, 0], [64, 32], [96, -32]])
     end
 
+    context "when the renderer is loaded" do
+      after { renderer }
+
+      it "draws its tiles to a render target" do
+        expect_output(an_object_having_attributes x: 0, y: 0, w: 64, h: 64)
+      end
+
+      it "draws its rectangles to a render target" do
+        expect_output(array_including(hash_including(x: 64, y: 64, w: 64, h: 96)))
+      end
+
+      it "draws its ellipses to a render target" do
+        expect_output(hash_including(x: 224, y: 0, w: 160, h: 128))
+      end
+
+      it "draws its points to a render target" do
+        expect_output(hash_including(x: 59, y: 155, w: 10, h: 10))
+      end
+
+      it "draws its polygons to a render target" do
+        expect_output(hash_including(x: 127, y: 127, w: 98, h: 66))
+      end
+    end
+
     describe "#render_layer" do
-      context "when rendering an object layer" do
-        before { allow_any_instance_of(OutputsArrayMock).to receive :<< }
-        after { renderer.render_layer layer }
+      after { renderer.render_layer layer }
 
-        it "renders the tile" do
-          expect_output(an_object_having_attributes x: 0, y: 0, w: 64, h: 64)
-        end
-
-        it "renders the rectangle" do
-          expect_output(array_including(hash_including(x: 64, y: 64, w: 64, h: 96)))
-        end
-
-        it "renders the ellipse" do
-          expect_output(hash_including(x: 224, y: 0, w: 160, h: 128))
-        end
-
-        it "renders the point" do
-          expect_output(hash_including(x: 59, y: 155, w: 10, h: 10))
-        end
-
-        it "renders the polygon" do
-          expect_output(hash_including(x: 127, y: 127, w: 98, h: 66))
-        end
+      it "draws the layer as a map-sized sprite" do
+        expect_output(array_including(hash_including(x: 0, y: 0,
+          w: map.pixelwidth, h: map.pixelheight, path: :"map_layer_#{layer.id}")))
       end
     end
   end
