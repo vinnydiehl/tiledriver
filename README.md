@@ -125,21 +125,35 @@ the illusion of a 3D environment.
 
 <br clear="right /">
 
-## Sample App
+## Sample Apps
 
-There is currently one sample app- a super simple demo that lets you move a
-sprite back and forth along the ground. It demonstrates camera movement,
-tracking, and parallax.
+There are sample apps included. They are:
 
-To use the sample app, put the root of this repo into an empty `mygame`
+ * **Platformer** - A super simple demo that lets you move a sprite back and
+                    forth along the ground. It demonstrates camera movement,
+                    external sprite tracking, and parallax.
+ * **RPG** - A sample [Pipoya](https://pipoya.itch.io/pipoya-rpg-tileset-32x32)
+             map. Demonstrates camera panning and animated tiles.
+
+To use the sample apps, put the root of this repo into an empty `mygame`
 directory in a freshly unzipped DragonRuby project. You will need to install
 the [DRTiled](https://github.com/wildfiler/drtiled) library; clone the repo and
 copy his `lib/` directory into this repo. Don't worry, you won't accidentally
 commit it; it's in the `.gitignore`.
 
+Run `./dragonruby` and the app will run. Use the left and right arrow keys to
+switch between the sample apps, and WASD or a controller to move.
+
 ## Contributing
 
 Feel free to open an issue or send a pull request if you have any ideas.
+
+If you wish to contribute a sample app, just put it in its own file, build the
+app in a class with a constructor that takes `args`, and a `tick` method.
+Add the `require` to
+`[main.rb](https://github.com/vinnydiehl/drtiled-renderer/blob/main/app/main.rb)`,
+and add the name of your class (case-sensitive) to the `SAMPLE_APPS` array
+just below the `require`s.
 
 ### Testing
 
@@ -156,6 +170,12 @@ this repository should do it.
 
 If you need help testing out a feature feel free to open an issue or PR and we
 can brainstorm a strategy.
+
+### Linting
+
+[RuboCop](https://rubocop.org/) is available. The configuration is incomplete;
+if the bot suggests something stupid, maybe fix it, or just ignore it, but if
+a guard is already in there don't remove it without good reason.
 
 ## License
 

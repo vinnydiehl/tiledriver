@@ -10,7 +10,7 @@ class Platformer
   end
 
   def tick
-    if (input = @args.inputs.left_right) != 0
+    if (input = @args.inputs.left_right) != 0 && @args.state.ticks_since_reset > 10
       @player[:x] += input * 10
 
       # Fake collision handling ;)
