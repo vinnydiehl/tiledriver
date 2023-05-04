@@ -1,6 +1,6 @@
 # DRTiled Renderer
 
-A [DragonRuby](https://dragonruby.org/toolkit/game) rendering library for the
+A [DragonRuby](https://dragonruby.org/toolkit/game) rendering library for
 [Tiled Map Editor](https://www.mapeditor.org/).
 
 ## Installation
@@ -130,10 +130,10 @@ the illusion of a 3D environment.
 There are sample apps included. They are:
 
  * **Platformer** - A super simple demo that lets you move a sprite back and
-                    forth along the ground. It demonstrates camera movement,
-                    external sprite tracking, and parallax.
+                    forth along the ground. It demonstrates external sprite
+                    camera tracking and parallax.
  * **RPG** - A sample [Pipoya](https://pipoya.itch.io/pipoya-rpg-tileset-32x32)
-             map. Demonstrates camera panning and animated tiles.
+             map. Demonstrates camera panning.
 
 To use the sample apps, put the root of this repo into an empty `mygame`
 directory in a freshly unzipped DragonRuby project. You will need to install
