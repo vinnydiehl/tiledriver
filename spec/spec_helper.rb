@@ -2,10 +2,7 @@ require "active_support/core_ext/hash"
 require "active_support/isolated_execution_state"
 require "active_support/xml_mini"
 
-# Stub to get Tiled::Sprite to load
-def attr_sprite
-  nil
-end
+require_relative "attr_sprite"
 
 # Need to load the modules first
 preload = %w[attribute_assignment serializable utils with_attributes
@@ -24,7 +21,6 @@ require_relative "constants"
 
 require_relative "core_ext"
 require_relative "mocks"
-require_relative "tiled_patch"
 
 RSpec.configure do |config|
   # Add `focus: true` hash parameter to a describe/context/it block
