@@ -151,7 +151,7 @@ Feel free to open an issue or send a pull request if you have any ideas.
 If you wish to contribute a sample app, just put it in its own file, build the
 app in a class with a constructor that takes `args`, and a `tick` method.
 Add the `require` to
-`[main.rb](https://github.com/vinnydiehl/drtiled-renderer/blob/main/app/main.rb)`,
+[`main.rb`](https://github.com/vinnydiehl/drtiled-renderer/blob/main/app/main.rb),
 and add the name of your class (case-sensitive) to the `SAMPLE_APPS` array
 just below the `require`s.
 
@@ -165,11 +165,16 @@ let more things slide through that wouldn't work on DragonRuby.
 
 You will need [Active
 Support](https://github.com/rails/rails/tree/main/activesupport) installed in
-order to run the test suite. Once you have, running `rspec` from the root of
-this repository should do it.
+order to run the test suite:
 
-If you need help testing out a feature feel free to open an issue or PR and we
-can brainstorm a strategy.
+```
+gem install activesupport
+```
+
+Once you have, running `rspec` from the root of this repository should do it.
+
+If you need help testing out a feature, we can discuss a strategy in the pull
+request.
 
 ### Linting
 
