@@ -5,6 +5,9 @@ AllCops:
     - lib/tiled/**/*.rb
     - spec/mocks.rb
 
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
 Layout/DotPosition:
   EnforcedStyle: trailing
 

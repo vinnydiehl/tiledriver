@@ -9,7 +9,7 @@ module Tiled
     # @param target_name [Symbol] the name of the render target to create
     # @return [GTK::OutputsArray] the primitives input for the render target
     def layer_render_target(target_name)
-      target = @args.render_target(target_name).tap do |t|
+      @args.render_target(target_name).tap do |t|
         t.clear_before_render = true
         t.width = @map.width * @map.tilewidth
         t.height = @map.height * @map.tileheight
