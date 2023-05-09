@@ -96,6 +96,53 @@ describe Tiled::Renderer do
         expect_output(array_including(hash_including(x: 0, y: 0,
           w: map.pixelwidth, h: map.pixelheight, path: :"map_layer_#{layer.id}")))
       end
+
+      context "when the camera position has been adjusted" do
+        before { renderer.camera.zoom }
+
+        it "draws the layer as a map-sized sprite" do
+          expect_output(array_including(hash_including(
+            x: -renderer.camera.x, y: -renderer.camera.y,
+            w: map.pixelwidth, h: map.pixelheight, path: :"map_layer_#{layer.id}"
+          )))
+        end
+      end
+
+      context "when the camera has been zoomed in" do
+        before { renderer.camera.zoom = 1 }
+
+        it "renders the map larger" do
+          expect_output(array_including(hash_including(
+            w: be > map.pixelwidth, h: be > map.pixelheight,
+            path: :"map_layer_#{layer.id}"
+          )))
+        end
+
+        it "shifts the camera inward" do
+          expect_output(array_including(hash_including(
+            x: be < -renderer.camera.x, y: be < -renderer.camera.y,
+            path: :"map_layer_#{layer.id}"
+          )))
+        end
+      end
+
+      context "when the camera has been zoomed out" do
+        before { renderer.camera.zoom = -1 }
+
+        it "renders the map smaller" do
+          expect_output(array_including(hash_including(
+            w: be < map.pixelwidth, h: be < map.pixelheight,
+            path: :"map_layer_#{layer.id}"
+          )))
+        end
+
+        it "shifts the camera outward" do
+          expect_output(array_including(hash_including(
+            x: be > -renderer.camera.x, y: be > -renderer.camera.y,
+            path: :"map_layer_#{layer.id}"
+          )))
+        end
+      end
     end
   end
 end
