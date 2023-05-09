@@ -42,11 +42,7 @@ module Tiled
 
       layer_camera = [@camera.x * layer.parallax.x, @camera.y, layer.parallax.y]
 
-      primitives = [{
-        x: -layer_camera.x, y: -layer_camera.y,
-        w: @map.pixelwidth, h: @map.pixelheight,
-        path: :"map_layer_#{layer.id}"
-      }]
+      primitives = [{ **camera.map_xywh, path: :"map_layer_#{layer.id}" }]
 
       # Re-render all animated sprites
       if layer.animated_sprites.any?

@@ -28,6 +28,14 @@ class RPG
       end
     end
 
+    if @args.inputs.keyboard.key_held.q
+      @renderer.camera.zoom_out 0.05
+    end
+
+    if @args.inputs.keyboard.key_held.e
+      @renderer.camera.zoom_in 0.05
+    end
+
     @renderer.render_map
   end
 end

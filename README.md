@@ -133,7 +133,7 @@ There are sample apps included. They are:
                     forth along the ground. It demonstrates external sprite
                     camera tracking and parallax.
  * **RPG** - A sample [Pipoya](https://pipoya.itch.io/pipoya-rpg-tileset-32x32)
-             map. Demonstrates camera panning.
+             map. Demonstrates camera panning and zoom.
 
 To use the sample apps, put the root of this repo into an empty `mygame`
 directory in a freshly unzipped DragonRuby project. You will need to install
