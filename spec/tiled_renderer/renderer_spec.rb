@@ -21,7 +21,7 @@ describe Tiled::Renderer do
       end
 
       it "resets the camera" do
-        renderer.camera.move x: 10
+        renderer.camera.pan x: 10
         renderer.map = Tiled::Map.new("spec/maps/test2.tmx").tap(&:load)
 
         expect(renderer.camera.x).to eq 0
@@ -34,7 +34,7 @@ describe Tiled::Renderer do
       %i[x y].each do |dir|
         it "subtracts the camera's #{dir} position from the primitive" do
           other = (%i[x y] - [dir]).first
-          renderer.camera.move dir => 10
+          renderer.camera.pan dir => 10
           expect_any_instance_of(OutputsArrayMock).
             to receive(:<<).with({ dir => 0, other => 10, w: 10, h: 10 })
 
@@ -98,49 +98,14 @@ describe Tiled::Renderer do
       end
 
       context "when the camera position has been adjusted" do
-        before { renderer.camera.zoom }
+        before { renderer.camera.pan x: 50, y: 50 }
 
+        # Verify that camera's behavior is being passed through to the
+        # renderer; see camera_spec.rb for more detailed zoom specs.
         it "draws the layer as a map-sized sprite" do
-          expect_output(array_including(hash_including(
-            x: -renderer.camera.x, y: -renderer.camera.y,
-            w: map.pixelwidth, h: map.pixelheight, path: :"map_layer_#{layer.id}"
-          )))
-        end
-      end
-
-      context "when the camera has been zoomed in" do
-        before { renderer.camera.zoom = 1 }
-
-        it "renders the map larger" do
-          expect_output(array_including(hash_including(
-            w: be > map.pixelwidth, h: be > map.pixelheight,
-            path: :"map_layer_#{layer.id}"
-          )))
-        end
-
-        it "shifts the camera inward" do
-          expect_output(array_including(hash_including(
-            x: be < -renderer.camera.x, y: be < -renderer.camera.y,
-            path: :"map_layer_#{layer.id}"
-          )))
-        end
-      end
-
-      context "when the camera has been zoomed out" do
-        before { renderer.camera.zoom = -1 }
-
-        it "renders the map smaller" do
-          expect_output(array_including(hash_including(
-            w: be < map.pixelwidth, h: be < map.pixelheight,
-            path: :"map_layer_#{layer.id}"
-          )))
-        end
-
-        it "shifts the camera outward" do
-          expect_output(array_including(hash_including(
-            x: be > -renderer.camera.x, y: be > -renderer.camera.y,
-            path: :"map_layer_#{layer.id}"
-          )))
+          expect_output(array_including(hash_including(x: -renderer.camera.x, y: -renderer.camera.y,
+                                                       w: map.pixelwidth, h: map.pixelheight,
+                                                       path: :"map_layer_#{layer.id}")))
         end
       end
     end

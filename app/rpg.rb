@@ -29,11 +29,11 @@ class RPG
     end
 
     if @args.inputs.keyboard.key_held.q
-      @renderer.camera.zoom_out 0.05
+      @renderer.camera.zoom_out 0.01
     end
 
     if @args.inputs.keyboard.key_held.e
-      @renderer.camera.zoom_in 0.05
+      @renderer.camera.zoom_in 0.01
     end
 
     @renderer.render_map

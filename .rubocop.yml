@@ -6,7 +6,7 @@ AllCops:
     - spec/mocks.rb
 
 Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
+  Enabled: false
 
 Layout/DotPosition:
   EnforcedStyle: trailing
