@@ -11,7 +11,7 @@ preload.each { |m| require_relative "../lib/tiled/#{m}" }
 
 Dir["lib/**/*.rb"].each do |file|
   # Load everything except the base files and modules
-  unless (["tiled.rb", "tiled_renderer.rb"] + preload).any? { |m| file.include? m }
+  unless (["tiled.rb", "tiledriver.rb"] + preload).any? { |m| file.include? m }
     file = file[0...-3]
     require_relative "../#{file}"
   end

@@ -1,4 +1,4 @@
-# DRTiled Renderer
+# tiledriver
 
 A [DragonRuby](https://dragonruby.org/toolkit/game) rendering library for
 [Tiled Map Editor](https://www.mapeditor.org/).
@@ -16,7 +16,7 @@ At the top of your `main.rb`:
 
 ```rb
 require 'lib/tiled/tiled.rb'
-require 'lib/tiled_renderer/tiled_renderer.rb'
+require 'lib/tiledriver/tiledriver.rb'
 ```
 
 Load your map (see the [DRTiled](https://github.com/wildfiler/drtiled) README
@@ -110,7 +110,7 @@ without affecting the camera's position. They can be set with
 
 You may pass in individual directions, or all 4.
 
-<img src="https://raw.githubusercontent.com/vinnydiehl/drtiled-renderer/main/doc/images/camera_origin_properties.png"
+<img src="https://raw.githubusercontent.com/vinnydiehl/tiledriver/main/doc/images/camera_origin_properties.png"
      align="right" width="191" height="420" />
      
 ### Camera Origin
@@ -163,7 +163,7 @@ Feel free to open an issue or send a pull request if you have any ideas.
 If you wish to contribute a sample app, just put it in its own file, build the
 app in a class with a constructor that takes `args`, and a `tick` method.
 Add the `require` to
-[`main.rb`](https://github.com/vinnydiehl/drtiled-renderer/blob/main/app/main.rb),
+[`main.rb`](https://github.com/vinnydiehl/tiledriver/blob/main/app/main.rb),
 and add the name of your class (case-sensitive) to the `SAMPLE_APPS` array
 just below the `require`s.
 
@@ -197,6 +197,6 @@ a guard is already in there don't remove it without good reason.
 ## License
 
 This library is released under the MIT license. See the
-[`LICENSE.md`](https://github.com/vinnydiehl/drtiled-renderer/blob/main/LICENSE.md)
+[`LICENSE.md`](https://github.com/vinnydiehl/tiledriver/blob/main/LICENSE.md)
 file included with this code or
 [the official page on OSI](http://opensource.org/licenses/MIT) for more information.

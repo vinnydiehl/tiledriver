@@ -1,5 +1,5 @@
 require "lib/tiled/tiled.rb"
-require "lib/tiled_renderer/tiled_renderer.rb"
+require "lib/tiledriver/tiledriver.rb"
 
 require "app/platformer.rb"
 require "app/rpg.rb"

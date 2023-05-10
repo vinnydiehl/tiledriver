@@ -1,7 +1,7 @@
 devid=vinnydiehl
 devtitle=Vinny Diehl
-gameid=drtiledrenderersample
-gametitle=DRTiled Renderer Sample App
+gameid=tiledriverdemo
+gametitle=tiledriver Demo
 version=0.1
 icon=metadata/icon.png
 
