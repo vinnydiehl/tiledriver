@@ -52,7 +52,7 @@ describe Tiled::Camera do
     expect(camera.y).to eq 0
   end
 
-  describe "#move" do
+  describe "#pan" do
     {
       up:   [:y,  50],
       down: [:y, -50],
@@ -63,7 +63,7 @@ describe Tiled::Camera do
       it "moves the camera #{dir}" do
         orig_position = [50, 75]
         camera.position = orig_position.dup
-        camera.move(axis => distance)
+        camera.pan(axis => distance)
 
         expect(camera.send axis).to eq(orig_position.send(axis) + distance)
       end
@@ -75,7 +75,7 @@ describe Tiled::Camera do
     let(:camera_origin) { [200, 200] }
 
     before do
-      camera.move x: camera_origin.x, y: camera_origin.y
+      camera.pan x: camera_origin.x, y: camera_origin.y
       # Keep target in middle of screen (right up against top of deadzone)
       subject.move(camera_origin.x, camera_origin.y - 32)
     end
@@ -175,6 +175,57 @@ describe Tiled::Camera do
 
     it "offsets the Y-axis" do
       expect(camera.y).to eq 10
+    end
+  end
+
+  describe "#render_rect" do
+    context "when the camera position has been adjusted" do
+      before { camera.pan x: 50, y: 50 }
+
+      it "adjusts the coordinates by the camera position" do
+        expect(camera.render_rect).to include(
+          x: -camera.x, y: -camera.y,
+          w: map.pixelwidth, h: map.pixelheight
+        )
+      end
+
+      context "when the camera has been zoomed in" do
+        before { camera.zoom_in 0.1 }
+
+        it "makes the map larger" do
+          expect(camera.render_rect).to include(w: a_value_between(1682, 1683),
+                                                h: a_value_between(1682, 1683))
+        end
+
+        it "shifts the camera inward" do
+          expect(camera.render_rect).to include(x: a_value_between(-86, -85),
+                                                y: a_value_between(-72, -71))
+        end
+      end
+
+      context "when the camera has been zoomed out" do
+        before { camera.zoom_out 0.1 }
+
+        it "makes the map smaller" do
+          expect(camera.render_rect).to include(w: a_value_between(1521, 1522),
+                                                h: a_value_between(1521, 1522))
+        end
+
+        it "shifts the camera outward" do
+          expect(camera.render_rect).to include(x: a_value_between(-17, -16),
+                                                y: a_value_between(-30, -29))
+        end
+      end
+    end
+
+    context "when the camera is at 0, 0 and zooms out" do
+      it "doesn't shift the camera outward" do
+        camera.zoom_in 1
+        camera.position = [0, 0]
+        camera.zoom_out 0.5
+
+        expect(camera.render_rect).to include(x: -camera.x, y: -camera.y)
+      end
     end
   end
 end
