@@ -130,7 +130,7 @@ module Tiled
       calculate_zoom
 
       # Roll back if we've zoomed out of bounds of the map
-      if @rect.w >= @map_width || @rect.h >= @map_height
+      if @rect.w > @map_width || @rect.h > @map_height
         @zoom = orig_zoom
         calculate_zoom
       end
