@@ -28,6 +28,7 @@ module Tiled
 
       @render_width = @map_width
       @render_height = @map_height
+      @render_scale = [1, 1]
 
       # The camera "deadzone" around the center is actually calculated
       # as a "margin" around the edges internally.
@@ -142,8 +143,8 @@ module Tiled
     # @return [Hash] the camera-adjusted x, y, w, and h positioning of the layer
     def render_rect(parallax=[1, 1])
       {
-        x: -(@render_width / @map_width) * (@rect.x * parallax.x),
-        y: -(@render_height / @map_height) * (@rect.y * parallax.y),
+        x: -@render_scale.x * @rect.x * parallax.x,
+        y: -@render_scale.y * @rect.y * parallax.y,
         w: @render_width,
         h: @render_height
       }
@@ -222,6 +223,7 @@ module Tiled
       # Scale the map's render width according to the zoom
       @render_width = (@screen_width / @rect.w) * @map_width
       @render_height = (@screen_height / @rect.h) * @map_height
+      @render_scale = [@render_width / @map_width, @render_height / @map_height]
 
       # #pan handles edge collisions
       pan x: (orig_width - @rect.w) / 2,
