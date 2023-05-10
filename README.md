@@ -54,12 +54,12 @@ pixels, the camera will now be at `[32, 0]`.
 
 ### Controlling the camera
 
-There are a couple of ways to move the camera. One is to call `Camera#move`:
+There are a couple of ways to move the camera. One is to call `Camera#pan`:
 
 ```rb
-@camera.move(x: 5, y: -5) # Move camera 5 pixels down and 5 pixels to the right
-@camera.move(x: -5)       # Move camera to the left
-@camera.move(y: 10)       # Move camera up quickly
+@camera.pan(x: 5, y: -5) # Move camera 5 pixels down and 5 pixels to the right
+@camera.pan(x: -5)       # Move camera to the left
+@camera.pan(y: 10)       # Move camera up quickly
 ```
 
 You can also track an object around the screen. You can pass in any hash
@@ -72,6 +72,18 @@ or an array of 4 numbers:
 ```
 
 Easing functions to smoothly follow the player are coming soon.
+
+### Zoom
+
+The camera's zoom is a value greater than 0 that determines the scale of the
+map. For example, if the zoom is 2, objects will appear twice as large as they
+would at the default zoom 1.
+
+```rb
+@camera.zoom = 0.5 # Snap zoom to a desired value
+@camera.zoom_in(0.1)  # Zoom in or out by
+@camera.zoom_out(0.1) # a desired amount
+```
 
 ### Tracking external primitives
 
