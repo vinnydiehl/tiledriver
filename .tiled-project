@@ -1,5 +1,5 @@
 {
-    "automappingRulesFile": "",
+    "automappingRulesFile": "maps/automap/rules.txt",
     "commands": [
     ],
     "compatibilityVersion": 1100,

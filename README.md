@@ -39,6 +39,14 @@ And now draw the map to the screen!
 @renderer.render_layer(:background) # Render a single layer
 ```
 
+You can pass a sprite or array of sprites in:
+
+```rb
+@renderer.render_map(sprites: player)
+# Sprite(s) rendered 1 layer deep by default, this will render on top:
+@renderer.render_map(sprites: [player, *npcs], depth: 0)
+```
+
 To change the map:
 
 ```rb
@@ -85,19 +93,6 @@ would at the default zoom 1.
 @camera.zoom_out(0.1) # a desired amount
 ```
 
-### Tracking external primitives
-
-To render primitives that aren't part of the map so that they are affected by
-the camera's movement:
-
-```rb
-@renderer.render_primitive(@player)
-```
-
-In this way, you can think about your primitive's `x` and `y` properties
-as its coordinates on the **map**, not on your screen; the `Renderer` will
-calculate the screen coordinates for you.
-
 ### Deadzone
 
 The camera has a "deadzone" around the center where the player can move freely
@@ -139,22 +134,30 @@ the illusion of a 3D environment.
 
 ## Sample Apps
 
-There are sample apps included. They are:
-
- * **Platformer** - A super simple demo that lets you move a sprite back and
-                    forth along the ground. It demonstrates external sprite
-                    camera tracking and parallax.
- * **RPG** - A sample [Pipoya](https://pipoya.itch.io/pipoya-rpg-tileset-32x32)
-             map. Demonstrates camera panning and zoom.
-
-To use the sample apps, put the root of this repo into an empty `mygame`
-directory in a freshly unzipped DragonRuby project. You will need to install
-the [DRTiled](https://github.com/wildfiler/drtiled) library; clone the repo and
-copy his `lib/` directory into this repo. Don't worry, you won't accidentally
-commit it; it's in the `.gitignore`.
+There are sample apps included. To run them, put the root of this repo into an
+empty `mygame` directory in a freshly unzipped DragonRuby project. You will
+need to install the [DRTiled](https://github.com/wildfiler/drtiled) library;
+clone the repo and copy his `lib/` directory into this repo. Don't worry, you
+won't accidentally commit it; it's in the `.gitignore`.
 
 Run `./dragonruby` and the app will run. Use the left and right arrow keys to
-switch between the sample apps, and WASD or a controller to move.
+switch between the sample apps:
+
+### Platformer
+
+Demonstrates camera tracking and parallax. Use A and D to move the sprite back
+and forth.
+
+### RPG
+
+A sample [Pipoya](https://pipoya.itch.io/pipoya-rpg-tileset-32x32) map. Demonstrates
+camera panning, zoom, sprite layering, and sprite tracking.
+
+Use WASD to pan the camera around, and Q/E to zoom. Press Escape to toggle a player
+sprite (it spawns near the bridge). While the player sprite is visible, you can move it
+around with WASD. There are no collisions in this example, so you will be able to clip
+through things, but in practice there would be collisions in place such that
+the top of the player sprite doesn't clip through the `walk_behind` layer.
 
 ## Contributing
 

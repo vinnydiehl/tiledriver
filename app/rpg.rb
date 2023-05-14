@@ -1,6 +1,13 @@
+SPEED = 5
+
 class RPG
   def initialize(args)
     @args = args
+    @player = {
+      x: 780, y: 920, w: 32, h: 48,
+      path: "sprites/square/red.png",
+      visible: false
+    }
   end
 
   def tick
@@ -18,15 +25,38 @@ class RPG
       @renderer ||= Tiled::Renderer.new(@args, @map)
     end
 
-    if @args.state.ticks_since_reset > 10
-      if (input = @args.inputs.left_right) != 0
-        @renderer.camera.move x: input * 20
+    # Toggle player sprite
+    if @args.inputs.keyboard.key_down.escape
+      @player[:visible] = !@player[:visible]
+    end
+
+    if @player[:visible]
+      # Move player sprite
+      if @args.state.ticks_since_reset > 10
+        if (input = @args.inputs.left_right) != 0
+          @player[:x] += input * SPEED
+        end
+
+        if (input = @args.inputs.up_down) != 0
+          @player[:y] += input * SPEED
+        end
       end
 
-      if (input = @args.inputs.up_down) != 0
-        @renderer.camera.move y: input * 20
+      @renderer.camera.track @player
+    else
+      # Pan camera
+      if @args.state.ticks_since_reset > 10
+        if (input = @args.inputs.left_right) != 0
+          @renderer.camera.move x: input * 20
+        end
+
+        if (input = @args.inputs.up_down) != 0
+          @renderer.camera.move y: input * 20
+        end
       end
     end
+
+    # Zoom camera
 
     if @args.inputs.keyboard.key_held.q
       @renderer.camera.zoom_out 0.01
@@ -36,6 +66,6 @@ class RPG
       @renderer.camera.zoom_in 0.01
     end
 
-    @renderer.render_map
+    @renderer.render_map(sprites: @player[:visible] ? @player : nil)
   end
 end

@@ -1,0 +1,2 @@
+[rpg.tmx]
+./rpg_rules.tmx

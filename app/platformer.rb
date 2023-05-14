@@ -18,7 +18,6 @@ class Platformer
     end
 
     @renderer.camera.track(@player)
-    @renderer.render_map
-    @renderer.render_primitive(@player)
+    @renderer.render_map(sprites: @player)
   end
 end
