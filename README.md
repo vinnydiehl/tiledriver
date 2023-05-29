@@ -96,11 +96,11 @@ would at the default zoom 1.
 ### Deadzone
 
 The camera has a "deadzone" around the center where the player can move freely
-without affecting the camera's position. They can be set with
-`Camera#set_deadzone`. The defaults are:
+without affecting the camera's position. It can be set with
+`Camera#set_deadzone`. The defaults in each direction are:
 
 ```rb
-@renderer.camera.set_deadzone(up: 0, down: 128, right: 128, left: 128)
+@renderer.camera.set_deadzone(up: 128, down: 128, right: 128, left: 128)
 ```
 
 You may pass in individual directions, or all 4.

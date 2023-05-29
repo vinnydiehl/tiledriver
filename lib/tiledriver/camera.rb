@@ -1,8 +1,12 @@
 module Tiled
+  # The default deadzone in which a `#track`ed item may move
+  # freely without moving the camera
+  DEADZONE_DEFAULT = 128
+
   # Controller for a camera which moves around the map. It points to the pixel on the map
   # that is rendered to the lower-left pixel of the screen.
   class Camera
-    attr_reader :rect, :zoom
+    attr_reader :rect, :zoom, :deadzone
 
     def initialize(args, map)
       @args = args
@@ -30,11 +34,9 @@ module Tiled
       @render_height = @map_height
       @render_scale = [1, 1]
 
-      # The camera "deadzone" around the center is actually calculated
-      # as a "margin" around the edges internally.
-      @margin = {}
-      default = 128
-      set_deadzone up: 0, down: default, left: default, right: default
+      @deadzone = {}
+      set_deadzone up: DEADZONE_DEFAULT, down: DEADZONE_DEFAULT,
+                   left: DEADZONE_DEFAULT, right: DEADZONE_DEFAULT
     end
 
     # @return [Float] the map X-coordinate of the camera
@@ -143,8 +145,8 @@ module Tiled
     # @return [Hash] the camera-adjusted x, y, w, and h positioning of the layer
     def render_rect(parallax=[1, 1])
       {
-        x: -@render_scale.x * @rect.x * parallax.x,
-        y: -@render_scale.y * @rect.y * parallax.y,
+        x: -x * @render_scale.x * parallax.x,
+        y: -y * @render_scale.y * parallax.y,
         w: @render_width,
         h: @render_height
       }
@@ -159,15 +161,8 @@ module Tiled
     # #option left [Numeric] the deadzone's width left of the center
     # #option right [Numeric] the deadzone's width right of the center
     def set_deadzone(up: nil, down: nil, left: nil, right: nil)
-      { @screen_height => %i[up down], @screen_width => %i[left right] }.each do |size, dirs|
-        midpoint = size / 2.0
-
-        dirs.each do |dir|
-          value = instance_eval(dir.to_s)
-          if value
-            @margin[dir] = midpoint - value
-          end
-        end
+      { up: up, down: down, left: left, right: right }.each do |direction, value|
+        @deadzone[direction] = value if value
       end
     end
 
@@ -175,26 +170,42 @@ module Tiled
     #
     # @param target [Array || Hash] a rectangle with x, y, w, and h
     def track(target)
-      x, y, w, h = target.is_a?(Hash) ? [target.x, target.y, target.w, target.h] : target
+      opposite =  [target.x + target.w, target.y + target.h]
 
-      screen_position = [x - @rect.x, y - @rect.y]
-      opposite = [screen_position.x + w, screen_position.y + h]
+      center_point = center
+      upper_right = upper_right_corner
 
-      # TODO: Stop this from calling #pan if camera is at outer edge of screen
-
-      right_x = @screen_width - @margin[:right]
-      if opposite.x > right_x
-        pan x: opposite.x - right_x
-      elsif screen_position.x < @margin[:left]
-        pan x: screen_position.x - @margin[:left]
+      right_margin = center_point.x + deadzone[:right]
+      if opposite.x > right_margin && upper_right.x < @map_width
+        pan x: opposite.x - right_margin
+      elsif target.x < (left_margin = center_point.x - deadzone[:left]) && x > 0
+        pan x: target.x - left_margin
       end
 
-      top_y = @screen_height - @margin[:up]
-      if opposite.y > top_y
-        pan y: opposite.y - top_y
-      elsif screen_position.y < @margin[:down]
-        pan y: screen_position.y - @margin[:down]
+      up_margin = center_point.y + deadzone[:up]
+      if opposite.y > up_margin && upper_right.y < @map_height
+        pan y: opposite.y - up_margin
+      elsif target.y < (down_margin = center_point.y - deadzone[:down]) && y > 0
+        pan y: target.y - down_margin
       end
+    end
+
+    alias follow track
+
+    # @return [Array<Float>] the map pixel located at the center of the camera
+    def center
+      [
+        x + (@screen_width / 2 / @render_scale.x),
+        y + (@screen_height / 2 / @render_scale.y)
+      ]
+    end
+
+    # @return [Array<Float>] the map pixel located at the upper-right corner of the camera
+    def upper_right_corner
+      [
+        x + (@screen_width / @render_scale.x),
+        y + (@screen_height / @render_scale.y)
+      ]
     end
 
     private
@@ -205,12 +216,12 @@ module Tiled
 
       # Zoom needs to be reflected about 1 because increasing zoom
       # actually needs to decrease the size of the rectangle
-      scale_factor = zoom > 0 ? 1 + (1 - Math.sqrt(zoom)) : 0
+      render_scale = zoom > 0 ? 1 + (1 - Math.sqrt(zoom)) : 0
 
       orig_width, orig_height = @rect.w, @rect.h
 
-      @rect.w = @screen_width * scale_factor
-      @rect.h = @screen_height * scale_factor
+      @rect.w = @screen_width * render_scale
+      @rect.h = @screen_height * render_scale
 
       if aspect_ratio > 1.0
         # Landscape

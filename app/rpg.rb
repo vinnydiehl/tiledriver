@@ -47,11 +47,11 @@ class RPG
       # Pan camera
       if @args.state.ticks_since_reset > 10
         if (input = @args.inputs.left_right) != 0
-          @renderer.camera.move x: input * 20
+          @renderer.camera.move x: input * 16
         end
 
         if (input = @args.inputs.up_down) != 0
-          @renderer.camera.move y: input * 20
+          @renderer.camera.move y: input * 16
         end
       end
     end
@@ -67,5 +67,11 @@ class RPG
     end
 
     @renderer.render_map(sprites: @player[:visible] ? @player : nil)
+
+    # Uncomment for "crosshairs" to debug zoom centering
+    # @args.outputs.debug << [
+    #   [0, @args.grid.h / 2, @args.grid.w, @args.grid.h / 2].line,
+    #   [@args.grid.w / 2, 0, @args.grid.w / 2, @args.grid.h].line
+    # ]
   end
 end
