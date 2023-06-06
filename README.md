@@ -103,7 +103,8 @@ without affecting the camera's position. It can be set with
 @renderer.camera.set_deadzone(up: 128, down: 128, right: 128, left: 128)
 ```
 
-You may pass in individual directions, or all 4.
+You may pass in individual directions, or all 4. These are set in **map
+pixels**.
 
 <img src="https://raw.githubusercontent.com/vinnydiehl/tiledriver/main/doc/images/camera_origin_properties.png"
      align="right" width="191" height="420" />
