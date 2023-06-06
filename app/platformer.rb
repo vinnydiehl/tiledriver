@@ -7,7 +7,7 @@ class Platformer
     @renderer.camera.set_deadzone up: 0
 
     @player = {
-      x: 96, y: 64, w: 40, h: 40,
+      x: 96, y: 64, w: 42, h: 42,
       path: "sprites/square/red.png"
     }
   end
