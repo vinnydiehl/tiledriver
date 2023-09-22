@@ -3,8 +3,9 @@ require "lib/tiledriver/tiledriver.rb"
 
 require "app/platformer.rb"
 require "app/rpg.rb"
+require "app/isometric.rb"
 
-SAMPLE_APPS = %i[Platformer RPG]
+SAMPLE_APPS = %i[Platformer RPG Isometric]
 
 def tick(args)
   args.state.selected_game ||= 0
